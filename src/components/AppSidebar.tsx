@@ -1,4 +1,5 @@
-import { Home, Inbox, Calculator } from "lucide-react";
+"use client";
+import { Home, Inbox, Calculator, LogOutIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -34,6 +35,12 @@ const items = [
 ];
 
 const AppSidebar = () => {
+  const handleLogout = () => {
+    // Clear the user cookie by setting it to expire in the past
+    document.cookie = "user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.href = "/login";
+  };
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="py-4">
@@ -62,7 +69,10 @@ const AppSidebar = () => {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    className="hover:bg-teal-800 hover:text-white"
+                    asChild
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -73,6 +83,16 @@ const AppSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <div className="mt-auto px-2">
+          <SidebarMenu>
+            <SidebarMenuItem onClick={handleLogout}>
+              <SidebarMenuButton className="flex gap-2 items-center cursor-pointer hover:bg-teal-800 hover:text-white">
+                <LogOutIcon />
+                <span>লগ আউট</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </div>
       </SidebarContent>
     </Sidebar>
   );
